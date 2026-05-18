@@ -2,16 +2,46 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/common/PageHero.astro';
 import ClassroomsSection from '@/sections/ClassroomsSection.astro';
+import { classrooms } from '@/data/classrooms';
+import { siteConfig } from '@/config/site';
+
+const classroomCount = classrooms.reduce((total, group) => total + group.schools.length, 0);
+const areaServed = classrooms.map((group) => group.city);
+const classroomSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: '日本MADOKA花藝設計學院認證教室資訊',
+  description: `Miyuki日本水晶花藝整理 ${classrooms.length} 個地區、${classroomCount} 間日本MADOKA花藝設計學院認證教室資訊。`,
+  url: Astro.url.toString(),
+  numberOfItems: classroomCount,
+  areaServed,
+  itemListElement: classrooms.flatMap((group, groupIndex) =>
+    group.schools.map((school, schoolIndex) => ({
+      '@type': 'ListItem',
+      position: groupIndex * 100 + schoolIndex + 1,
+      item: {
+        '@type': 'EducationalOrganization',
+        name: `${school.name}｜${group.city}認證教室`,
+        description: `${siteConfig.shortName} ${group.summary}`,
+        address: school.address || group.city,
+        telephone: school.phone || undefined,
+        areaServed: group.city,
+        url: Astro.url.toString()
+      }
+    }))
+  )
+};
 ---
 
 <BaseLayout
-  title="日本MADOKA花藝設計學院認證教室資訊"
-  description="日本MADOKA花藝設計學院認證教室資訊，依地區整理台灣與香港認證教室。"
+  title="日本MADOKA花藝設計學院認證教室資訊｜台灣與香港教室"
+  description={`日本MADOKA花藝設計學院認證教室資訊，整理台灣與國外 ${classrooms.length} 個地區、${classroomCount} 間日本水晶花藝認證教室，提供地址、電話、社群與網站連結。`}
 >
   <PageHero
     eyebrow="Madoka Flower Design School"
     title="日本MADOKA花藝設計學院認證教室資訊"
-    description="依地區整理認證教室資訊。"
+    description="依台灣與國外地區整理認證教室資訊，提供地址、電話、社群與網站連結。"
   />
   <ClassroomsSection />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(classroomSchema)} />
 </BaseLayout>

@@ -1,5 +1,46 @@
 ---
 import { classrooms } from '@/data/classrooms';
+
+type NoteLink = {
+  type: 'facebook' | 'instagram' | 'website' | 'email';
+  label: string;
+  href: string;
+};
+
+const getClassroomNote = (note = '') => {
+  const links: NoteLink[] = [];
+  let text = note;
+
+  const socialPattern = /(?:Facebook|Instagram|官網):\s*(https?:\/\/[^\s；]+)/gi;
+  text = text.replace(socialPattern, (match, url: string) => {
+    const lowerMatch = match.toLowerCase();
+    if (lowerMatch.includes('facebook')) {
+      links.push({ type: 'facebook', label: 'Facebook', href: url });
+    } else if (lowerMatch.includes('instagram')) {
+      links.push({ type: 'instagram', label: 'Instagram', href: url });
+    } else {
+      links.push({ type: 'website', label: '網站', href: url });
+    }
+    return '';
+  });
+
+  const emailPattern = /(?:Email|電子郵件):\s*([^\s；]+@[^\s；]+)/gi;
+  text = text.replace(emailPattern, (_match, email: string) => {
+    links.push({ type: 'email', label: 'Email', href: `mailto:${email}` });
+    return '';
+  });
+
+  const cleanText = text
+    .replace(/；\s*；/g, '；')
+    .replace(/^\s*；\s*/, '')
+    .replace(/\s*；\s*$/, '')
+    .trim();
+
+  return { text: cleanText, links };
+};
+
+const taiwanClassrooms = classrooms.filter((group) => group.city !== '香港');
+const overseasClassrooms = classrooms.filter((group) => group.city === '香港');
 ---
 
 <section class="section classrooms-section" id="classrooms">
@@ -7,9 +48,10 @@ import { classrooms } from '@/data/classrooms';
     <aside class="classrooms-index" aria-label="教室地區索引">
       <p>area</p>
       <nav>
-        {classrooms.map((group) => (
-          <a href={`#studio-${group.city}`}>{group.city}</a>
-        ))}
+        <span class="classrooms-index__label">台灣地區</span>
+        {taiwanClassrooms.map((group) => <a href={`#studio-${group.city}`}>{group.city}</a>)}
+        {overseasClassrooms.length > 0 && <span class="classrooms-index__label">國外</span>}
+        {overseasClassrooms.map((group) => <a href={`#studio-${group.city}`}>{group.city}</a>)}
       </nav>
     </aside>
 
@@ -22,7 +64,7 @@ import { classrooms } from '@/data/classrooms';
           花藝設計學院認證教室資訊
         </h2>
       </div>
-      <p class="classrooms-note">※入會・受講をご希望の方は、各教室にお申し込みください。</p>
+      <p class="classrooms-note">※如需入會或學習，請直接向各認證教室洽詢。</p>
 
       <div class="classroom-list">
         {classrooms.map((group) => (
@@ -50,14 +92,49 @@ import { classrooms } from '@/data/classrooms';
                     )}
                     {school.phone && (
                       <div>
-                        <dt>電話番号</dt>
+                        <dt>電話號碼</dt>
                         <dd>{school.phone}</dd>
                       </div>
                     )}
                     {school.note && (
                       <div>
                         <dt>備註</dt>
-                        <dd>{school.note}</dd>
+                        <dd>
+                          {getClassroomNote(school.note).text && <span>{getClassroomNote(school.note).text}</span>}
+                          {getClassroomNote(school.note).links.length > 0 && (
+                            <span class="classroom-social-links">
+                              {getClassroomNote(school.note).links.map((link) => (
+                                <a class={`classroom-social-link classroom-social-link--${link.type}`} href={link.href} target={link.type === 'email' ? undefined : '_blank'} rel={link.type === 'email' ? undefined : 'noreferrer'} aria-label={link.label}>
+                                  {link.type === 'facebook' && (
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                      <path d="M14.2 8.4V6.9c0-.7.5-.9 1-.9h1.6V3.2C16.5 3.1 15.4 3 14.3 3c-2.5 0-4.2 1.5-4.2 4.2v1.2H7.4v3.1h2.7V21h3.3v-9.5h2.8l.4-3.1h-3Z" />
+                                    </svg>
+                                  )}
+                                  {link.type === 'instagram' && (
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                      <rect x="4" y="4" width="16" height="16" rx="5" />
+                                      <circle cx="12" cy="12" r="3.4" />
+                                      <circle cx="16.9" cy="7.2" r="1" />
+                                    </svg>
+                                  )}
+                                  {link.type === 'website' && (
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                      <circle cx="12" cy="12" r="9" />
+                                      <path d="M3.8 9h16.4M3.8 15h16.4M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+                                    </svg>
+                                  )}
+                                  {link.type === 'email' && (
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                      <path d="M4 6h16v12H4z" />
+                                      <path d="m4 7 8 6 8-6" />
+                                    </svg>
+                                  )}
+                                  <span>{link.label}</span>
+                                </a>
+                              ))}
+                            </span>
+                          )}
+                        </dd>
                       </div>
                     )}
                   </dl>
