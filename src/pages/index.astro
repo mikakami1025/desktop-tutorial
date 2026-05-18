@@ -1,20 +1,22 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import HeroCarousel from '@/components/home/HeroCarousel.astro';
+import PageHero from '@/components/common/PageHero.astro';
 import AboutSection from '@/sections/AboutSection.astro';
-import FeaturedWorksSection from '@/sections/FeaturedWorksSection.astro';
-import WorksSection from '@/sections/WorksSection.astro';
-import StorySection from '@/sections/StorySection.astro';
-import ClassroomsSection from '@/sections/ClassroomsSection.astro';
 import ContactSection from '@/sections/ContactSection.astro';
+import MapSection from '@/sections/MapSection.astro';
 ---
 
-<BaseLayout>
-  <HeroCarousel />
+<BaseLayout
+  title="Miyuki日本水晶花藝｜日系花藝生活品牌"
+  description="Miyuki日本水晶花藝以日本水晶花、American Flower材料技法、工藝盆栽與認證教室資訊，呈現靜謐、透明感與生活感的花藝品牌網站。"
+  image="assets/optimized/hero/miyuki-crystal-flower-gallery.jpg"
+>
+  <PageHero
+    eyebrow="American Flower"
+    title="Miyuki日本水晶花藝 | アメリカンフラワー"
+    description="Miyuki日本水晶花藝以日本水晶花、American Flower材料技法、工藝盆栽與認證教室資訊，呈現靜謐、透明感與生活感的花藝品牌網站。"
+  />
   <AboutSection />
-  <FeaturedWorksSection />
-  <WorksSection />
-  <StorySection />
   <ContactSection />
-  <ClassroomsSection />
+  <MapSection />
 </BaseLayout>

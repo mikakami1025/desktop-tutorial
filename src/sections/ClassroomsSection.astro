@@ -3,38 +3,70 @@ import { classrooms } from '@/data/classrooms';
 ---
 
 <section class="section classrooms-section" id="classrooms">
-  <div class="container">
-    <div class="section-heading section-heading--center">
-      <p class="eyebrow">Madoka Flower Design School</p>
-      <h2>
-        日本MADOKA
-        <br />
-        花藝設計學院認證教室資訊
-      </h2>
-    </div>
-    <div class="classroom-list">
-      {classrooms.map((group) => (
-        <details class="classroom-card">
-          <summary>
-            <span>
-              <strong>{group.city}</strong>
-              <small>{group.summary}</small>
-            </span>
-            <span class="summary-icon">＋</span>
-          </summary>
-          <div class="school-list">
-            {group.schools.map((school) => (
-              <article class="school-item">
-                <h3>{school.name}</h3>
-                <p>{school.teacher}</p>
-                <p>{school.address}</p>
-                <p>{school.phone}</p>
-                <small>{school.note}</small>
-              </article>
-            ))}
-          </div>
-        </details>
-      ))}
+  <div class="container classrooms-directory">
+    <aside class="classrooms-index" aria-label="教室地區索引">
+      <p>area</p>
+      <nav>
+        {classrooms.map((group) => (
+          <a href={`#studio-${group.city}`}>{group.city}</a>
+        ))}
+      </nav>
+    </aside>
+
+    <div class="classrooms-content">
+      <div class="classrooms-heading">
+        <p>classroom</p>
+        <h2>
+          日本MADOKA
+          <br />
+          花藝設計學院認證教室資訊
+        </h2>
+      </div>
+      <p class="classrooms-note">※入會・受講をご希望の方は、各教室にお申し込みください。</p>
+
+      <div class="classroom-list">
+        {classrooms.map((group) => (
+          <section class="classroom-region" id={`studio-${group.city}`} aria-labelledby={`studio-title-${group.city}`}>
+            <div class="classroom-region__title">
+              <h3 id={`studio-title-${group.city}`}>{group.city}</h3>
+            </div>
+            <p class="classroom-region__summary">{group.summary}</p>
+            <div class="school-list">
+              {group.schools.map((school) => (
+                <article class="school-item">
+                  <dl>
+                    <div class="school-item__main">
+                      <dt>認證教室</dt>
+                      <dd>
+                        <strong>{school.name}</strong>
+                        {school.teacher && <span>{school.teacher}</span>}
+                      </dd>
+                    </div>
+                    {school.address && (
+                      <div>
+                        <dt>所在地</dt>
+                        <dd>{school.address}</dd>
+                      </div>
+                    )}
+                    {school.phone && (
+                      <div>
+                        <dt>電話番号</dt>
+                        <dd>{school.phone}</dd>
+                      </div>
+                    )}
+                    {school.note && (
+                      <div>
+                        <dt>備註</dt>
+                        <dd>{school.note}</dd>
+                      </div>
+                    )}
+                  </dl>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
     </div>
   </div>
 </section>

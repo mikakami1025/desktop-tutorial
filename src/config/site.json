@@ -1,7 +1,7 @@
 {
   "name": "Miyuki日本水晶花藝 | アメリカンフラワー",
   "shortName": "Miyuki日本水晶花藝",
-  "description": "Miyuki日本水晶花藝提供日本水晶花（アメリカンフラワー）、American Flower材料技法、MADOKA水晶花國際認證教室、台灣與香港課程資訊，分享日系晶透花藝作品、學員創作與工藝盆栽靈感。",
+  "description": "Miyuki日本水晶花藝提供日本水晶花（アメリカンフラワー）、American Flower材料技法、MADOKA水晶花國際認證教室、台灣與香港教室資訊，分享日系晶透花藝作品、學員創作與工藝盆栽靈感。",
   "locale": "zh-TW",
   "logo": "assets/brand/logo.jpg",
   "background": {
@@ -14,24 +14,12 @@
       "href": "/"
     },
     {
-      "label": "關於我們",
-      "href": "/#about"
+      "label": "作品展示",
+      "href": "/works/"
     },
     {
-      "label": "作品",
-      "href": "/#works"
-    },
-    {
-      "label": "教室資訊",
-      "href": "/#classrooms"
-    },
-    {
-      "label": "文章",
-      "href": "/blog/"
-    },
-    {
-      "label": "聯絡我們",
-      "href": "/#contact"
+      "label": "認證教室資訊",
+      "href": "/classrooms/"
     }
   ]
 }

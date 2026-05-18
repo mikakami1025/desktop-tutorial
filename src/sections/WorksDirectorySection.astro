@@ -1,0 +1,44 @@
+---
+import { workCollections } from '@/data/home';
+
+const base = import.meta.env.BASE_URL;
+const asset = (path: string) => `${base}${path.replace(/^\/+/, '')}`;
+---
+
+<section class="section works-directory" aria-labelledby="works-directory-title">
+  <div class="container">
+    <div class="section-heading section-heading--left">
+      <p class="eyebrow">Works</p>
+      <h2 id="works-directory-title">作品展示</h2>
+    </div>
+
+    <div class="works-directory__groups">
+      {workCollections.map((collection) => (
+        <section class="works-directory__group" aria-labelledby={`${collection.key}-title`}>
+          <div class="works-directory__group-head">
+            <p class="eyebrow">{collection.key}</p>
+            <h3 id={`${collection.key}-title`}>{collection.title}</h3>
+            <p>{collection.description}</p>
+          </div>
+          <div class="works-directory__grid">
+            {collection.slides.map((work) => (
+              <article class="works-directory__item">
+                <figure>
+                  <img
+                    src={asset(work.image)}
+                    alt={`${work.title}｜${collection.title}`}
+                    width="760"
+                    height="560"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <h4>{work.title}</h4>
+              </article>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+</section>

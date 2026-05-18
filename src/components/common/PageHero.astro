@@ -1,0 +1,22 @@
+---
+type Props = {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  image?: string;
+};
+
+const { eyebrow, title, description, image = 'assets/optimized/hero/miyuki-crystal-flower-gallery.jpg' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const asset = (path: string) => `${base}${path.replace(/^\/+/, '')}`;
+---
+
+<section class="page-intro" aria-labelledby="page-intro-title" style={`--page-intro-image: url('${asset(image)}')`}>
+  <div class="container page-intro__inner">
+    <div>
+      {eyebrow && <p>{eyebrow}</p>}
+      <h1 id="page-intro-title">{title}</h1>
+      {description && <small>{description}</small>}
+    </div>
+  </div>
+</section>

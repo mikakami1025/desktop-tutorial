@@ -1,0 +1,14 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/common/PageHero.astro';
+import WorksDirectorySection from '@/sections/WorksDirectorySection.astro';
+---
+
+<BaseLayout
+  title="作品展示"
+  description="Miyuki日本水晶花藝作品展示，包含日本水晶花藝與工藝盆栽作品。"
+  image="assets/optimized/hero/miyuki-crystal-flower-gallery.jpg"
+>
+  <PageHero eyebrow="Works" title="作品展示" description="日本水晶花藝與工藝盆栽作品。" />
+  <WorksDirectorySection />
+</BaseLayout>
